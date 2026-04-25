@@ -1,100 +1,73 @@
-# Livraria---Eng-de-software
+# React + TypeScript + Vite
 
-## Descrição
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Este projeto implementa um sistema de filtro de livros utilizando a abordagem de Test-Driven Development (TDD).
+Currently, two official plugins are available:
 
-O objetivo é permitir que usuários filtrem livros com base em critérios específicos antes de se deslocarem até a livraria.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
----
+## React Compiler
 
-## Problema
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Clientes de livrarias físicas frequentemente enfrentam o problema de se deslocar até uma loja sem saber se o livro desejado está disponível ou se vale a pena a compra.
+## Expanding the ESLint configuration
 
-Este sistema busca resolver esse problema permitindo a filtragem prévia de livros.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
----
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Objetivo
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Implementar um método que retorne uma lista de livros filtrada por critérios fornecidos pelo usuário.
-
----
-
-## Funcionalidades
-
-* Filtrar livros por gênero
-* Filtrar livros por preço máximo
-* Combinar múltiplos critérios
-* Retornar lista de livros filtrados
-
----
-
-## Processo TDD
-
-O desenvolvimento foi realizado seguindo os princípios de Test-Driven Development:
-
-1. Criação dos testes automatizados
-2. Execução dos testes (falha inicial)
-3. Implementação do código mínimo para passar nos testes
-4. Refatoração do código
-
----
-
-## Testes implementados
-
-* Filtrar livros por gênero
-* Filtrar livros por preço máximo
-* Filtrar por múltiplos critérios
-* Teste sem filtros
-* Teste com lista vazia
-
----
-
-## Exemplo de uso
-
-```python
-from livro import Livro
-from livro_service import filtrar_livros
-
-livros = [
-    Livro("Livro A", "Autor 1", 50.0, "Fantasia"),
-    Livro("Livro B", "Autor 2", 30.0, "Romance")
-]
-
-resultado = filtrar_livros(livros, genero="Fantasia")
-
-for livro in resultado:
-    print(livro.titulo)
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Como executar os testes
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-No terminal, execute:
-
-```bash
-python -m unittest test_livro_service.py
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
----
-
-## Estrutura do projeto
-
-```
-livraria-tdd/
-├── livro.py
-├── livro_service.py
-├── test_livro_service.py
-└── README.md
-```
-
----
-
-## Autor
-
-Murilo Rocha
-
----
